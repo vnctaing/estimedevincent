@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css" media="screen,projection">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
  </head>
 
  <body>
@@ -15,12 +16,26 @@
     <div class="home_header amber darken-2">
       <h1>lestimedeVincent.fr</h1>
       <p class="lead">Suivez en direct votre position dans l'estime de Vincent.</p>
-      <a data-target="modal1" onclick="$('#modal1').openModal();" class="waves-effect waves-light btn teal lighten-2">C'est quoi cette merde encore ? </a>
+      <a data-target="modal1" onclick="$('#modal1').openModal();" class="waves-effect waves-light btn teal lighten-2 estm_headerButtonWTF--rstUppercase">C'est quoi cette merde encore ? </a>
       <div id="modal1" class="modal">
-        <div class="modal-content">
-          <p>This is a big modal</p>
+        <div class="modal-content estm_modal--content">
+          <h5>Pourquoi t'as fait ça ? </h5>
+          <p>En fait c'est parti d'une connerie de <a href="https://twitter.com/PandaMatthieu">Matthieu</a> sur Slack : <img src="http://img15.hostingpics.net/pics/575396ScreenShot20150809at81347PM.png"></p>
+          <p>J'avais lâché l'affaire mais vendredi soir, j'étais dans un bar et Narjisse a lâché qu'elle adorait Kendji Girac et qu'elle dansait le Kuduro. J'lui ai fait savoir que si l'appli existait elle aurait perdu pleins de points dans mon estime. Du coup samedi matin, je m'y suis mis à dev l'app. </p>
+          <h5>Du coup ça marche comment ?</h5>
+          <p>Mon estime marche avec un système sur une échelle s'étendant sur entre ]-&infin; , +&infin;[, soit &#x211d;. En fonction de ce que vous faites, vous montez ou descendez dans mon estime. :)</p>
+          <h5>Tu trouves pas ça égocentrique ?</h5>
+          <p>Si, carrément. Mais ça me fait marrer ahah. Tâchez de prendre ça au 32ème degré, je vous aime quand même ( un peu ).</p>
+          <h5>Je peux créer une page identique mais avec MON estime ?</h5>
+          <p>Non. Un jour peut-être,  si t'es sage..</p>
+          <h5>@developpeurs/designers</h5>
+          <p>Le code source est sur <a href="https://github.com/vnctaing/estimedevincent">Github</a>, si t'as des remarques avant de m'afficher devant tout le monde tu peux :</p>
+          <ul>
+            <li>1) Ouvrir une issue</li>
+            <li>2) Encore mieux, envoyer une pull request</li>
+          </ul>
         </div>
-        <div class="modal-footer"><a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a></div>
+        <div class="modal-footer"><a href="#!" class="modal-action modal-close waves-effect waves-green btn teal">Ok</a></div>
       </div>
     </div>
   </header>
@@ -40,7 +55,8 @@
         <input type="text" name="lastName" placeholder="Nom">
         <input type="number" name="esteem" placeholder="Estime">
         <textarea type="textarea" class="materialize-textarea" name="description" placeholder="description"></textarea>
-        <input type="submit" class="waves-effect waves-light btn teal lighten-2">
+        
+        <input type="submit">
        </form>
       {{/if}} 
 
@@ -81,9 +97,6 @@
       </div>
     </div>
 
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
  </body> 
 
 

@@ -17,3 +17,17 @@
   color: #b2b2b2;
   font-size: 0.8em;
 }
+
+
+.estm_headerButtonWTF--rstUppercase{
+  text-transform: initial;
+}
+
+.estm_modal--content{
+  color: #0f0f0f;
+  text-align: left;
+}
+
+body{
+  background-color: #fafafa;
+}
