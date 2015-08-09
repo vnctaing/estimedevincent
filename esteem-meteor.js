@@ -56,6 +56,10 @@ if (Meteor.isClient) {
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
   });
+  Accounts.config({
+    forbidClientAccountCreation : true
+  });
+
 
   Template.body.helpers({
     friends: function () {      
@@ -84,7 +88,7 @@ if (Meteor.isClient) {
       return moment(date);
     }
   });
-  
+
   Template.registerHelper('formatDateFromNow', function(date) {
     return moment(date).fromNow();
   });
