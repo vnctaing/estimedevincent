@@ -1,0 +1,53 @@
+ <head>
+   <title>Todo List</title>
+ </head>
+
+ <body>
+   <div class="container">
+    <header>
+      <h1>Friends :</h1>
+      {{> loginButtons}}
+      
+      <span class="text"><strong>{{username}}</strong></span>
+      {{#if currentUser}}
+      <form action="" class="new-friend">
+        <input type="text" name="firstName" placeholder="Prénom">
+        <input type="text" name="lastName" placeholder="Nom">
+        <input type="number" name="esteem" placeholder="Estime">
+        <input type="textarea" name="description" placeholder="description">
+        <input type="submit">
+       </form>
+      {{/if}}
+     </header>
+      <table>
+        <thead>
+          <tr>
+            <td>Prénom</td>
+            <td>Nom</td>
+            <td>Estime</td>
+            <td>Description</td>
+          </tr>        
+        </thead>      
+        {{#each friends}}
+          {{> friend}}
+        {{/each}}
+      </table>
+   </div>
+ </body> 
+
+ <template name="friend">
+      {{#if isOwner}}
+      <button class="delete">&times;</button>
+      {{/if}}
+      <tbody>
+        <tr>
+          <td>{{firstName}}</td>
+          <td>{{lastName}}</td>
+          <td>{{esteem}}</td>
+          <td>{{description}}</td>
+        </tr>        
+      </tbody>
+        
+ </template>
+
+
