@@ -10,7 +10,7 @@ In other words, thanks to Meteor's cache connection, the data displayed on the b
 #### Meteor Installation
 Be sure to have meteor installed, on MacOSX : 
 
-`curl https://install.meteor.com/ | sh`
+`$ curl https://install.meteor.com/ | sh`
 
 
 #### Run the app :  
