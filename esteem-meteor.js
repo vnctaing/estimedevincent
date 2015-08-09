@@ -1,8 +1,11 @@
-var Friends = new Mongo.Collection("tasks");
+var Friends = new Mongo.Collection("Friends");
+var Feeds = new Mongo.Collection("Feeds");
 
 
+//Meteor Client Code
 if (Meteor.isClient) {
-  Meteor.subscribe("tasks");
+  Meteor.subscribe("friends");
+  Meteor.subscribe("feeds");
 
   Template.body.events({
     "submit .new-friend": function (event) {
@@ -10,19 +13,20 @@ if (Meteor.isClient) {
       var newFriendData = {
         firstName: event.target.firstName.value, 
         lastName: event.target.lastName.value,
-        esteem: event.target.esteem.value,
+        esteem: parseInt(event.target.esteem.value),
         description: event.target.description.value,
       }
       Meteor.call('addFriend', newFriendData);
-      _.mapObject(event.target, function(field){
-        console.log(field);
-      });
+      event.target.firstName.value = "";
+      event.target.lastName.value = "";
+      event.target.esteem.value = "";
+      event.target.description.value = "";
 
     },
 
-    // "click .hide-completed input": function (e) {
-    //   Session.set('hideCompleted', event.target.checked);
-    // },
+    "click .hide-completed input": function (e) {
+      Session.set('hideCompleted', event.target.checked);
+    },
 
     "click .delete": function () {
       Meteor.call('deleteFriend', this._id);
@@ -30,6 +34,22 @@ if (Meteor.isClient) {
 
     "click .toggle-private": function () {
       Meteor.call('setPrivate', this._id, ! this.private);
+    },
+
+    "submit .update-esteem": function (event) {
+      event.preventDefault();
+      var feedData = {
+        friendId: this._id,
+        firstName: this.firstName,
+        delta: parseInt(event.target.delta.value),
+        reason: event.target.reason.value,
+        createdAt: moment().toISOString(),
+        esteemOwner: Meteor.userId(),
+      };
+      Meteor.call('addToFeeds', 'update', feedData);
+      Meteor.call('updateEsteem', this._id, parseInt(event.target.delta.value));
+      event.target.delta.value = "";
+      event.target.reason.value = "";
     }
   });
 
@@ -38,19 +58,14 @@ if (Meteor.isClient) {
   });
 
   Template.body.helpers({
-    friends: function () {
-      if(Session.get("hideCompleted")){
-        return Friends.find(
-          {sort: {createdAt: -1}}
-        );
-      }else{        
-        return Friends.find({}, {sort: {createdAt: -1}});
-      }
+    friends: function () {      
+      return Friends.find({}, {sort: {esteem: -1}});
     },
 
-    hideCompleted: function () {
-      return Session.get("hideCompleted");
+    feeds: function () {
+      return Feeds.find({}, {sort: {createdAt: -1}});
     },
+
   });
 
   Template.friend.helpers({
@@ -59,6 +74,22 @@ if (Meteor.isClient) {
     },
   });
 
+  Template.feed.helpers({
+    isDeltaNegative: function () {
+      return this.delta > 0 ? true: false;
+    },
+
+    fromNow: function (date) {
+      console.log('from fromnow', date);
+      return moment(date);
+    }
+  });
+  
+  Template.registerHelper('formatDateFromNow', function(date) {
+    return moment(date).fromNow();
+  });
+
+
 
 }
 
@@ -66,8 +97,11 @@ if (Meteor.isClient) {
 //Meteor Server System
 
 if (Meteor.isServer) {
-  Meteor.publish("tasks", function () {
+  Meteor.publish("friends", function () {
     return Friends.find({});
+  });
+  Meteor.publish("feeds", function () {
+    return Feeds.find({});
   });
 }
 
@@ -79,24 +113,38 @@ Meteor.methods({
       throw new Meteor.Error('NOT_AUTHORIZED');
     }
 
-    newFriend.createdAt = new Date();
+    newFriend.createdAt = moment().toISOString();
     newFriend.owner = Meteor.userId();      
     Friends.insert(newFriend);
 
   },
 
-  deleteFriend: function(taskId) {
-    var friend = Friends.findOne(taskId);
+  deleteFriend: function(friendId) {
+    var friend = Friends.findOne(friendId);
     if(friend.private && friend.owner !== Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
-    Friends.remove(taskId);
+    Friends.remove(friendId);
   },
 
-  setChecked: function (taskId, setChecked) {
-
-    Friends.update(taskId,{$set: { checked: setChecked}});
+  setChecked: function (friendId, setChecked) {
+    Friends.update(friendId,{$set: { checked: setChecked}});
   },
+
+  updateEsteem: function(friendId, delta){
+    var friend = Friends.findOne(friendId);
+    delta = friend.esteem + delta;
+    Friends.update(friendId,{$set: { esteem: delta}});
+  },
+
+  addToFeeds: function (typeFeed, feedData) {
+    if(typeFeed === 'update') {
+      Feeds.insert(feedData);
+    } 
+    else if (typeFeed === 'newFriend') {
+      console.log('Just added a new friend')
+    }
+  }
 
 
 

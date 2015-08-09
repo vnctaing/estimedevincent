@@ -1,53 +1,130 @@
+<!-- C'est pas dans mon code HTML que tu vas trouver des imperfections -->
+
  <head>
-   <title>Todo List</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+   <title>Lestimedevincent.fr</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
  </head>
 
  <body>
-   <div class="container">
-    <header>
-      <h1>Friends :</h1>
+  <header>
+    <div class="home_header amber darken-2">
+      <h1>lestimedeVincent.fr</h1>
+      <p class="lead">Suivez en direct votre position dans l'estime de Vincent.</p>
+      <a data-target="modal1" onclick="$('#modal1').openModal();" class="waves-effect waves-light btn teal lighten-2">C'est quoi cette merde encore ? </a>
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <p>This is a big modal</p>
+        </div>
+        <div class="modal-footer"><a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a></div>
+      </div>
+    </div>
+  </header>
+
+
+
+    <div class="container">
+      <h4>Friends :</h4>
       {{> loginButtons}}
       
       <span class="text"><strong>{{username}}</strong></span>
+
+
       {{#if currentUser}}
       <form action="" class="new-friend">
         <input type="text" name="firstName" placeholder="Prénom">
         <input type="text" name="lastName" placeholder="Nom">
         <input type="number" name="esteem" placeholder="Estime">
-        <input type="textarea" name="description" placeholder="description">
-        <input type="submit">
+        <textarea type="textarea" class="materialize-textarea" name="description" placeholder="description"></textarea>
+        <input type="submit" class="waves-effect waves-light btn teal lighten-2">
        </form>
-      {{/if}}
-     </header>
-      <table>
-        <thead>
-          <tr>
-            <td>Prénom</td>
-            <td>Nom</td>
-            <td>Estime</td>
-            <td>Description</td>
-          </tr>        
-        </thead>      
-        {{#each friends}}
-          {{> friend}}
-        {{/each}}
-      </table>
-   </div>
+      {{/if}} 
+
+
+      <div class="row">
+        <h5>Les dernières évolutions dans l'estime de Vincent</h5>
+        <div class="col s12">
+          <ul class="collection z-depth-2 overflow-scrollable estm_feedTimeline--container">
+            {{#each feeds}}
+              {{> feed}}
+            {{/each}}
+          </ul>
+        </div>
+
+
+        <div class="col s12">
+          <table class="bordered">
+            <thead>
+              <tr>
+                <td>Prénom</td>
+                <td>Nom</td>
+                <td>Estime</td>
+                <td>Description</td>
+                {{#if currentUser}}
+                <td>Actions</td>
+                <td>Variation</td>
+                <td>Raison</td>
+                {{/if}}
+              </tr>        
+            </thead>      
+            {{#each friends}}
+              {{> friend}}
+            {{/each}}
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
  </body> 
 
+
+
  <template name="friend">
+  <tbody>
+    <tr>
+      <td>{{firstName}}</td>
+      <td>{{lastName}}</td>
+      <td>{{esteem}}</td>
+      <td>{{description}}</td>
       {{#if isOwner}}
-      <button class="delete">&times;</button>
-      {{/if}}
-      <tbody>
-        <tr>
-          <td>{{firstName}}</td>
-          <td>{{lastName}}</td>
-          <td>{{esteem}}</td>
-          <td>{{description}}</td>
-        </tr>        
-      </tbody>
+      <td>
+        <a class="btn-floating btn waves-effect waves-light delete">-</a>
+        <a class="btn-floating btn waves-effect waves-light edit">M</a>
+      </td>
+      <form class="update-esteem">
+        <td>
+          <input type="number" name="delta">
+        </td>
+        <td>
+          <textarea name="reason" class="materialize-textarea"></textarea>
+          <input type="submit">
+        </td>
+      </form>
+
         
+      {{/if}}
+    </tr>        
+  </tbody>
+ </template>
+
+
+ <template name="feed">
+  <li class="collection-item">
+    <p>
+    {{firstName}} : <strong> {{delta}} </strong> points dans l'estime de Vincent. — 
+    <span class="estm_feedTimeline--timeAgo">{{formatDateFromNow createdAt}}</span>
+</p>
+    <p>Raison : "{{reason}}"</p>
+  </li>    
  </template>
 
 

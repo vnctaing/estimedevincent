@@ -1,1 +1,23 @@
 /* CSS declarations go here */
+.home_header{
+    /*background-color: #ffa726;*/
+    color: white;
+    text-align: center;
+    height: 450px;
+    padding: 100px;
+    margin-bottom: 20px;
+}
+
+.estm_feedTimeline--container{
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.estm_feedTimeline--timeAgo{
+  color: #b2b2b2;
+  font-size: 0.8em;
+}
+
+html{
+  width: 100%;
+}
