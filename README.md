@@ -15,8 +15,10 @@ Be sure to have meteor installed, on MacOSX :
 
 #### Run the app :  
 
-`$ git clone git@github.com:vnctaing/estimedevincent.git`
-`$ cd estimedevincent`
-`$ meteor`
+```
+$ git clone git@github.com:vnctaing/estimedevincent.git
+$ cd estimedevincent
+$ meteor
+```
 
 If you have any suggestion, feel free to open an issue or send a pull request. 
